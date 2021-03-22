@@ -1,19 +1,28 @@
-const mysql = require('mysql');
-
 const express = require('express');
 
 const sequelize = require('sequelize');
 
+const exphbs = require('express-handlebars');
 
-const database = mysql.createConnection({
-    host:'localhost',
-    user:'root',
-    password:'password',
-    port:3306,
-    database:'face_tha_muzikDB'
-});
+const PORT = process.env.PORT || 8080;
 
-database.connect((err) => {
-    if (err) throw err;
-    //cal first function
+const app = express();
+
+//You can use static content from the public directory
+app.use(express.urlencoded({
+    extended: true
+}));
+
+app.use(express.json())
+
+app.engine('handlebars', exphbs({
+    defaultLayout: 'main'
+}))
+
+app.set("view engine", "handlebars");
+
+//establish routes here
+
+app.listen(PORT, () => {
+    console.log(`listening on port: ${PORT}`)
 });
